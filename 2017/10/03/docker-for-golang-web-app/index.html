@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Docker for Golang Web App | N.Y.</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Docker,Golang," />
+  
+
+  <meta name="description" content="前言我最近在做自己的个人项目，需要部署一个稳定的 Golang Web App 运行环境。然而之前使用的 supervisor 十分不稳定，导致服务经常跪掉。所以决定学习 Docker，用其来做 Golang 的环境部署工具。另外，学习新东西很有意思，借此机会也学习一下运维和后端的相关技术。
+本文分为 Docker 基本概念和 Docker 实践操作两部分，如果只想学习 Docker 的基本操作，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker for Golang Web App">
+<meta property="og:url" content="http://yoursite.com/2017/10/03/docker-for-golang-web-app/index.html">
+<meta property="og:site_name" content="N.Y.">
+<meta property="og:description" content="前言我最近在做自己的个人项目，需要部署一个稳定的 Golang Web App 运行环境。然而之前使用的 supervisor 十分不稳定，导致服务经常跪掉。所以决定学习 Docker，用其来做 Golang 的环境部署工具。另外，学习新东西很有意思，借此机会也学习一下运维和后端的相关技术。
+本文分为 Docker 基本概念和 Docker 实践操作两部分，如果只想学习 Docker 的基本操作，">
+<meta property="og:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
+<meta property="og:image" content="https://docs.docker.com/engine/article-img/architecture.svg">
+<meta property="og:updated_time" content="2017-10-11T13:19:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker for Golang Web App">
+<meta name="twitter:description" content="前言我最近在做自己的个人项目，需要部署一个稳定的 Golang Web App 运行环境。然而之前使用的 supervisor 十分不稳定，导致服务经常跪掉。所以决定学习 Docker，用其来做 Golang 的环境部署工具。另外，学习新东西很有意思，借此机会也学习一下运维和后端的相关技术。
+本文分为 Docker 基本概念和 Docker 实践操作两部分，如果只想学习 Docker 的基本操作，">
+<meta name="twitter:image" content="https://docs.docker.com/engine/article-img/engine-components-flow.png">
+
+  
+
+  
+    <link rel="icon" href="https://niyaoyao.github.io/images/avatar.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#初识-Docker"><span class="toc-text">初识 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-Engine"><span class="toc-text">Docker Engine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-architecture"><span class="toc-text">Docker architecture</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-daemon"><span class="toc-text">Docker daemon</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-client"><span class="toc-text">Docker client</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-registries"><span class="toc-text">Docker registries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-objects"><span class="toc-text">Docker objects</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#IMAGES"><span class="toc-text">IMAGES</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CONTAINERS"><span class="toc-text">CONTAINERS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SERVICES"><span class="toc-text">SERVICES</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-实践"><span class="toc-text">Docker 实践</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-Docker"><span class="toc-text">安装 Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-for-macOS"><span class="toc-text">Docker for macOS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#阿里云-CentOS"><span class="toc-text">阿里云 CentOS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#镜像"><span class="toc-text">镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列出镜像-docker-images"><span class="toc-text">列出镜像 docker images</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取镜像"><span class="toc-text">获取镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Docker-Hub-获取-docker-pull"><span class="toc-text">Docker Hub 获取 docker pull</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dockerfile-构建-docker-build"><span class="toc-text">Dockerfile 构建 docker build</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除镜像-docker-rmi"><span class="toc-text">删除镜像 docker rmi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容器"><span class="toc-text">容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列出容器-docker-ps"><span class="toc-text">列出容器 docker ps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行容器-docker-run"><span class="toc-text">运行容器 docker run</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#交互终端"><span class="toc-text">交互终端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#指定端口"><span class="toc-text">指定端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#随机端口"><span class="toc-text">随机端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#绑定卷"><span class="toc-text">绑定卷</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#停止容器后自动删除"><span class="toc-text">停止容器后自动删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#后台常驻"><span class="toc-text">后台常驻</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器名字"><span class="toc-text">容器名字</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#容器链接"><span class="toc-text">容器链接</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#停止容器-docker-stop"><span class="toc-text">停止容器 docker stop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除容器-docker-rm"><span class="toc-text">删除容器 docker rm</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#部署-MySQL-Golang-Nginx-Beego-的联合环境"><span class="toc-text">部署 MySQL + Golang + Nginx + Beego 的联合环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#官方镜像"><span class="toc-text">官方镜像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#定制-Beego-镜像"><span class="toc-text">定制 Beego 镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编写-Dockerfile-文件"><span class="toc-text">编写 Dockerfile 文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译定制的镜像"><span class="toc-text">编译定制的镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行-MySQL"><span class="toc-text">运行 MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#运行容器"><span class="toc-text">运行容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链接-MySQL"><span class="toc-text">链接 MySQL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化数据库和数据表"><span class="toc-text">初始化数据库和数据表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行-Beego-API"><span class="toc-text">运行 Beego API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成-Beego-Api-应用"><span class="toc-text">生成 Beego Api 应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行-Api-应用"><span class="toc-text">运行 Api 应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行-Nginx"><span class="toc-text">运行 Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#启动-Nginx，链接容器"><span class="toc-text">启动 Nginx，链接容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用-Docker-搭建直播服务环境"><span class="toc-text">利用 Docker 搭建直播服务环境</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-docker-for-golang-web-app" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Docker for Golang Web App</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Niyao</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Dokcer/">Dokcer</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.niyao.space/2017/10/03/docker-for-golang-web-app/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我最近在做自己的个人项目，需要部署一个稳定的 Golang Web App 运行环境。然而之前使用的 supervisor 十分不稳定，导致服务经常跪掉。所以决定学习 Docker，用其来做 Golang 的环境部署工具。另外，学习新东西很有意思，借此机会也学习一下运维和后端的相关技术。</p>
+<p>本文分为 Docker 基本概念和 Docker 实践操作两部分，如果只想学习 Docker 的基本操作，可点击 <a href="./#Docker-实践">Docker 实践</a></p>
+<h1 id="初识-Docker"><a href="#初识-Docker" class="headerlink" title="初识 Docker"></a>初识 Docker</h1><p>Docker 是一个为开发、装载以及运行应用提供的开放平台。Docker 使能将应用从基础设施中分离，从而使我们能快速发布软件。通过利用 Docker 装载、测试以及快速部署代码的优势，在生产中我们能够显著地减少编写代码和运行程序间的时间延迟。</p>
+<h2 id="Docker-Engine"><a href="#Docker-Engine" class="headerlink" title="Docker Engine"></a>Docker Engine</h2><p>Docker 引擎是一个拥有以下组件的 C/S 应用：</p>
+<ul>
+<li>服务端，一种被称谓后台进程 daemon process 的始终运行的程序（dockerd 命令）。</li>
+<li>REST API，那些程序能够用于和后台程序通信和指示它们做什么的特定接口。</li>
+<li>命令行（CLI）客户端（docker 命令）。</li>
+</ul>
+<p><img src="https://docs.docker.com/engine/article-img/engine-components-flow.png" alt=""></p>
+<p>CLI 用 Docker REST API 去经由脚本或者直接命令行指令，与 Docker 后台程序进行控制或者交互。很多其他 Docker 应用使用下层的 API 和 CLI。</p>
+<p>后台程序（dockerd）创建和管理 Docker 对象，如镜像、容器、网络和卷。</p>
+<h2 id="Docker-architecture"><a href="#Docker-architecture" class="headerlink" title="Docker architecture"></a>Docker architecture</h2><p>Docker 是 C/S 架构的。Docker 客户端与 Docker 后台程序进行通讯，Docker 后台程序承担了 Docker 容器的创建、运行以及分发。Docker 客户端以及后台程序能够在相同系统上运行，或者我们可以用 Docker 客户端连接远程 Docker 后台。Docker 客户端和后台程序利用 REST API 在 UNIX sockets 或网络接口中进行通讯。</p>
+<p><img src="https://docs.docker.com/engine/article-img/architecture.svg" alt=""></p>
+<h3 id="Docker-daemon"><a href="#Docker-daemon" class="headerlink" title="Docker daemon"></a>Docker daemon</h3><p>Docker 后台程序（dockerd） 监听 Docker API 请求和管理 Docker 对象，例如，镜像、容器、网络和卷。一个后台程序也可以和其他后台程序进行通信，以管理 Docker 的服务。</p>
+<h3 id="Docker-client"><a href="#Docker-client" class="headerlink" title="Docker client"></a>Docker client</h3><p>Docker 客户端（docker）是 Docker 用户和 Docker 进行交互的主要方式。当我们使用命令行例如，<strong>docker run</strong> ，客户端向 dockerd 发送这些命令。docker 命令使用 Docker API。Docker 客户端能与不止一个后台程序进行通信。</p>
+<h3 id="Docker-registries"><a href="#Docker-registries" class="headerlink" title="Docker registries"></a>Docker registries</h3><p>Docker 仓库存储 Docker 镜像。Docker Hub 以及 Docker 云是公用注册仓库，任何人都可以使用，并且 Docker 默认配置在 Docker Hub 查找镜像。我们甚至能共运行自己的私有仓库。</p>
+<h3 id="Docker-objects"><a href="#Docker-objects" class="headerlink" title="Docker objects"></a>Docker objects</h3><p>当使用 Docker 时，我们正创建和使用使用镜像、容器、网络、卷、插件以及其他对象。这一部分是这些对象的简述。</p>
+<h4 id="IMAGES"><a href="#IMAGES" class="headerlink" title="IMAGES"></a>IMAGES</h4><p><strong>镜像是一个用指令来创建 Docker 容器的只读模板。</strong>通常，一个镜像基于另外一个镜像，并有一些额外的自定义配置。例如，我们可能构建一个基于 ubuntu 的镜像，但是安装了 Apache Web 服务器和我们的应用，以及使应用程序运行所需的配置详细信息。</p>
+<h4 id="CONTAINERS"><a href="#CONTAINERS" class="headerlink" title="CONTAINERS"></a>CONTAINERS</h4><p><strong>容器是一个可运行的镜像的实例</strong>。我们能够利用 Docker API 或者 CLI 创建、运行、停止、移动或者删除一个容器。</p>
+<h4 id="SERVICES"><a href="#SERVICES" class="headerlink" title="SERVICES"></a>SERVICES</h4><p>服务允许我们跨多个 Docker 守护程序扩展容器，这些守护进程与多个管理员和工作人员作为一个集群进行协作。 集群的每个成员都是 Docker 守护进程，守护进程使用 Docker API 进行通信。</p>
+<h1 id="Docker-实践"><a href="#Docker-实践" class="headerlink" title="Docker 实践"></a>Docker 实践</h1><p>以上是 Docker 的一些基本概念，但是这些概念都非常抽象，难以理解，所以，接下来具体实践下 Docker 是如何使用的。</p>
+<h2 id="安装-Docker"><a href="#安装-Docker" class="headerlink" title="安装 Docker"></a>安装 Docker</h2><h3 id="Docker-for-macOS"><a href="#Docker-for-macOS" class="headerlink" title="Docker for macOS"></a>Docker for macOS</h3><p>对于 macOS 的 Docker 安装，是比较简单的，直接<a href="https://store.docker.com/editions/community/docker-ce-desktop-mac" target="_blank" rel="external">下载 Docker</a> 的客户端就可以。安装完成后，运行 Docker 就可以使用了。</p>
+<h3 id="阿里云-CentOS"><a href="#阿里云-CentOS" class="headerlink" title="阿里云 CentOS"></a>阿里云 CentOS</h3><p>输入下列命令行进行安装<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">yum install epel-release-y</div><div class="line">yum clean all</div><div class="line">yum list</div><div class="line">yum install docker-io -y</div><div class="line">docker info</div></pre></td></tr></table></figure></p>
+<p>或者运行</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>SL http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet | sh -</div></pre></td></tr></table></figure>
+<h2 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h2><p>在我使用 Docker 的过程中，接触到的镜像操作一般是列出镜像、获取镜像和删除镜像。</p>
+<h3 id="列出镜像-docker-images"><a href="#列出镜像-docker-images" class="headerlink" title="列出镜像 docker images"></a>列出镜像 <strong>docker images</strong></h3><p>输入 <strong>docker images</strong> 命令后，控制台就输出本地所有的 Docker 镜像。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">➜  Downloads docker images</div><div class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</div><div class="line">beego               latest              ac00984e1c84        <span class="number">45</span> hours ago        <span class="number">775</span>MB</div><div class="line">golang              latest              bba10fd6d576        <span class="number">6</span> days ago          <span class="number">733</span>MB</div><div class="line">mysql               latest              b4e78b89bcf3        <span class="number">3</span> weeks ago         <span class="number">412</span>MB</div><div class="line">nginx               latest              da5939581ac8        <span class="number">3</span> weeks ago         <span class="number">108</span>MB</div></pre></td></tr></table></figure>
+<h3 id="获取镜像"><a href="#获取镜像" class="headerlink" title="获取镜像"></a>获取镜像</h3><p>获取镜像有两种方式，一种是在 Docker Hub 等仓库拉取镜像，另一种是自己编写 Dockerfile 构建镜像。</p>
+<h4 id="Docker-Hub-获取-docker-pull"><a href="#Docker-Hub-获取-docker-pull" class="headerlink" title="Docker Hub 获取 docker pull"></a>Docker Hub 获取 <strong>docker pull</strong></h4><p>alpine 是 Linux 的体积最小的 Docker 镜像，用它来做演示。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull alpine</div></pre></td></tr></table></figure>
+<p><strong>docker pull</strong> 命令行会将 alpine 的镜像拉取到本地，再输入列出镜像命令，即可发现本地镜像中多了一个 alpine 的镜像。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">➜  Downloads docker images</div><div class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</div><div class="line">beego               latest              ac00984e1c84        45 hours ago        775MB</div><div class="line">golang              latest              bba10fd6d576        6 days ago          733MB</div><div class="line">mysql               latest              b4e78b89bcf3        3 weeks ago         412MB</div><div class="line">nginx               latest              da5939581ac8        3 weeks ago         108MB</div><div class="line">alpine              latest              76da55c8019d        3 weeks ago         3.97MB</div></pre></td></tr></table></figure>
+<h4 id="Dockerfile-构建-docker-build"><a href="#Dockerfile-构建-docker-build" class="headerlink" title="Dockerfile 构建 docker build"></a>Dockerfile 构建 <strong>docker build</strong></h4><p>除了通过 Docker Hub 拉取镜像，还可以自己编写 Dockerfile 定制镜像。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> alpine</div><div class="line"><span class="keyword">ADD</span><span class="bash"> helloworld /</span></div></pre></td></tr></table></figure>
+<p>然后在 Dockerfile 存储的位置构建自定义的 Docker 镜像。其中，本文所使用的项目是 <a href="https://github.com/niyaoyao/http-response-for-go-web-application" target="_blank" rel="external">Simple Go Web App</a> ，需要自己手动在 git 根目录创建 Dockerfile。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">➜  http-response-for-go-web-application git:(master) ✗ docker build -t nyalpine .</div><div class="line">Sending build context to Docker daemon  <span class="number">67.39</span>MB</div><div class="line">Step <span class="number">1</span>/<span class="number">2</span> : <span class="keyword">FROM</span> alpine</div><div class="line"> ---&gt; <span class="number">76</span>da55c8019d</div><div class="line">Step <span class="number">2</span>/<span class="number">2</span> : <span class="keyword">ADD</span><span class="bash"> helloworld /</span></div><div class="line"> ---&gt; <span class="number">6</span>cceb96a3904</div><div class="line">Successfully built <span class="number">6</span>cceb96a3904</div><div class="line">Successfully tagged nyalpine:latest</div></pre></td></tr></table></figure>
+<p><strong>docker build</strong> 命令将我们所编写的 Dockerfile 构建到本定镜像，并按照对应指令，逐步运行。可以看到 <strong>FROM</strong> 指令先从 Docker Hub 拉取 alpine 镜像，然后 <strong>ADD</strong> 指令将项目中的 helloworld 二进制文件添加到根目录。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">➜  http-response-for-go-web-application git:(master) ✗ docker images</div><div class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</div><div class="line">nyalpine            latest              <span class="number">6</span>cceb96a3904        <span class="number">9</span> minutes ago       <span class="number">8.2</span>MB</div><div class="line">beego               latest              ac00984e1c84        <span class="number">46</span> hours ago        <span class="number">775</span>MB</div><div class="line">golang              latest              bba10fd6d576        <span class="number">6</span> days ago          <span class="number">733</span>MB</div><div class="line">mysql               latest              b4e78b89bcf3        <span class="number">3</span> weeks ago         <span class="number">412</span>MB</div><div class="line">nginx               latest              da5939581ac8        <span class="number">3</span> weeks ago         <span class="number">108</span>MB</div><div class="line">alpine              latest              <span class="number">76</span>da55c8019d        <span class="number">3</span> weeks ago         <span class="number">3.97</span>MB</div></pre></td></tr></table></figure>
+<p>输入 <strong>docker images</strong> 命令后，发现我们编写的 Docker 镜像构建成功。 运行一下测试这个 Docker 镜像是否可用。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">➜  http-response-for-go-web-application git:(master) ✗ docker <span class="keyword">run</span><span class="bash"> -it --rm nyalpine</span></div><div class="line">/ <span class="comment"># ls</span></div><div class="line">bin         etc         home        media       proc        <span class="keyword">run</span><span class="bash">         srv         tmp         var</span></div><div class="line">dev         helloworld  lib         mnt         root        sbin        sys         usr</div><div class="line">/ <span class="comment"># exit</span></div></pre></td></tr></table></figure>
+<p><strong>docker run</strong> 是将我们构建的镜像运行成容器实例，其中 <strong>-it</strong> （interact）选项是生成可交互的终端，<strong>–rm</strong> 选项是当容器停止运行后，让 Docker 自动删除容器。</p>
+<h3 id="删除镜像-docker-rmi"><a href="#删除镜像-docker-rmi" class="headerlink" title="删除镜像 docker rmi"></a>删除镜像 <strong>docker rmi</strong></h3><p>删除镜像的命令行是 <strong>docker rmi</strong>，即 remove image。例如，我们刚才创建的 nyalpine 这个镜像，我们可以直接用 nyalpine 名字 <strong>docker rmi nyalpine</strong> 删除，或者利用镜像对应的 IMAGE ID <strong>docker rmi 6cce</strong> 删除。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">➜  http-response-for-go-web-application git:(master) ✗ docker rmi nyalpine</div><div class="line">Untagged: nyalpine:latest</div><div class="line">Deleted: sha256:<span class="number">6</span>cceb96a3904a6b4e3aa50feb2665c9816b255e6418435326f8dc1b0ff0e4694</div><div class="line">Deleted: sha256:<span class="number">23</span>aedac71bd6a5bc86750590191aa0086319e3162c00be3d04b7ab8504f05f18</div></pre></td></tr></table></figure>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>刚才我们已经简单尝试过镜像的构建，并运行容器了。接下来，我们利用 <a href="https://github.com/niyaoyao/http-response-for-go-web-application" target="_blank" rel="external">Simple Go Web App</a> 项目来对容器的操作进行学习。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">➜  http-response-for-go-web-application git:(master) docker <span class="keyword">run</span><span class="bash"> --rm -it -p 1234:9090 -v <span class="string">"<span class="variable">$(pwd)</span>"</span>:/go/src golang</span></div><div class="line">root@<span class="number">2</span>a9432e4806f:/go<span class="comment"># cd src</span></div><div class="line">root@<span class="number">2</span>a9432e4806f:/go/src<span class="comment"># sh run-go.sh</span></div><div class="line">Service Started</div></pre></td></tr></table></figure>
+<p>在 git 根目录执行上面的命令，则可以启动 Go Web 服务，访问 <a href="http://localhost:1234/" target="_blank" rel="external">http://localhost:1234/</a> 即可看到运行的 Web 网页。接下来就具体看一下操作容器经常会用到的命令。</p>
+<h3 id="列出容器-docker-ps"><a href="#列出容器-docker-ps" class="headerlink" title="列出容器 docker ps"></a>列出容器 <strong>docker ps</strong></h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker ps</div></pre></td></tr></table></figure>
+<p><strong>docker ps</strong> 会列出所有运行中的容器，而 <strong>docker ps -a</strong> 会将已经停止但未被删除的容器一起列出。</p>
+<h3 id="运行容器-docker-run"><a href="#运行容器-docker-run" class="headerlink" title="运行容器 docker run"></a>运行容器 <strong>docker run</strong></h3><p>运行容器其实只需要 <strong>docker run</strong> 命令即可，但是，为了满足我们更多样的需求，我们需要使用很多选项参数进行设置，比如，设置网络端口以便宿主机能够访问等。 <strong>docker run –help</strong> 查看 <strong>docker run</strong> 命令的详细选项。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> --help</span></div><div class="line">Usage:	docker <span class="keyword">run</span><span class="bash"> [OPTIONS] IMAGE [COMMAND] [ARG...]</span></div><div class="line"><span class="keyword">Run</span><span class="bash"> a <span class="built_in">command</span> <span class="keyword">in</span> a new containe</span></div></pre></td></tr></table></figure>
+<h4 id="交互终端"><a href="#交互终端" class="headerlink" title="交互终端"></a>交互终端</h4><p><strong>-i</strong> <strong>–interactive</strong> 选项使容器的标准输入始终打开，<strong>-t</strong> <strong>–tty</strong> 选项可以为容器创建一个 伪 TTY 终端。以 alpine 为例，我们运行一个有交互终端的容器输入下列命令。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> -it alpine</span></div></pre></td></tr></table></figure>
+<h4 id="指定端口"><a href="#指定端口" class="headerlink" title="指定端口"></a>指定端口</h4><p><strong>-p</strong> <strong>–publish</strong> 选项用来指定对宿主机开放的端口。比如，<a href="https://github.com/niyaoyao/http-response-for-go-web-application" target="_blank" rel="external">Simple Go Web App</a> 项目 helloworld.go 在容器中绑定的端口是 9090，而我们可以指定我们想要的主机访问的端口为 1234。</p>
+<h4 id="随机端口"><a href="#随机端口" class="headerlink" title="随机端口"></a>随机端口</h4><p><strong>-P</strong> <strong>–publish-all</strong> 选项用来为主机开放所有暴露的端口，并且都为随机端口。</p>
+<h4 id="绑定卷"><a href="#绑定卷" class="headerlink" title="绑定卷"></a>绑定卷</h4><p><strong>-v</strong> <strong>–volume</strong> 选项用来绑定容器和宿主机的卷，比如， <a href="https://github.com/niyaoyao/http-response-for-go-web-application" target="_blank" rel="external">Simple Go Web App</a> 项目就将根目录绑定到 /go/src 目录下，以便编译运行 go 程序。</p>
+<h4 id="停止容器后自动删除"><a href="#停止容器后自动删除" class="headerlink" title="停止容器后自动删除"></a>停止容器后自动删除</h4><h4 id="后台常驻"><a href="#后台常驻" class="headerlink" title="后台常驻"></a>后台常驻</h4><p><strong>-d</strong> <strong>–detach</strong> 选项用来让容器在后台运行，并且打印容器的 ID。如下，就是让 MySQL 作为后台常驻容器运行，并且 MySQL 的密码应该填写在 MYSQL_ROOT_PASSWORD 后。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> --name some-mysql <span class="_">-e</span> MYSQL_ROOT_PASSWORD=mysecretpassword <span class="_">-d</span> mysql</span></div></pre></td></tr></table></figure>
+<h4 id="容器名字"><a href="#容器名字" class="headerlink" title="容器名字"></a>容器名字</h4><p><strong>–name</strong> 选项可以指派容器一个易记的名字，如果这个选项没有被指定，那么 Docker 会给容器取一个随机的名字。</p>
+<h4 id="容器链接"><a href="#容器链接" class="headerlink" title="容器链接"></a>容器链接</h4><p>镜像的设计原则是使运行应用的容器尽量小且独立，那么可以运行多个容器以达到多个应用相互独立和隔离的目的，但是如果容器间想要进行通讯链接，就必须使用这个选项进行容器的互联。</p>
+<p>比如，我们让 MySQL 作为后台常驻程序运行，如果需要修改 MySQL 的数据，其中一个方法就是可以通过运行另外一个容器，并使用 <strong>–link</strong> 选项链接到后台运行的 MySQL 容器。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="keyword">run</span><span class="bash"> -it --link some-mysql:mysql --rm mysql sh -c <span class="string">'exec mysql -h"$MYSQL_PORT_3306_TCP_ADDR" -P"$MYSQL_PORT_3306_TCP_PORT" -uroot -p"$MYSQL_ENV_MYSQL_ROOT_PASSWORD"'</span></span></div></pre></td></tr></table></figure>
+<h3 id="停止容器-docker-stop"><a href="#停止容器-docker-stop" class="headerlink" title="停止容器 docker stop"></a>停止容器 <strong>docker stop</strong></h3><figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">➜  mvoice git:(master) ✗ docker ps</div><div class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                    NAMES</div><div class="line"><span class="number">00</span>da63ecff60        golang              <span class="string">"bash"</span>              About an hour ago   Up About an hour    <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">1234</span>-&gt;<span class="number">9090</span>/tcp   jovial_franklin</div><div class="line">➜  mvoice git:(master) ✗ docker stop <span class="number">00</span>da</div><div class="line"><span class="number">00</span>da</div></pre></td></tr></table></figure>
+<p>我们可以使用 <strong>docker stop _container_id_</strong> 来终止运行的容器。对于我们刚才的例子，由于设置了 <strong>–rm</strong> 选项，那么容器再停止退出的时候会被自动删除。</p>
+<h3 id="删除容器-docker-rm"><a href="#删除容器-docker-rm" class="headerlink" title="删除容器 docker rm"></a>删除容器 <strong>docker rm</strong></h3><p>如果在运行容器时，没有设置 <strong>–rm</strong> 选项，那么就必须对容器进行手动删除。<strong>注意，–rm 选项 和 -d 选项不能同时使用。</strong></p>
+<h1 id="部署-MySQL-Golang-Nginx-Beego-的联合环境"><a href="#部署-MySQL-Golang-Nginx-Beego-的联合环境" class="headerlink" title="部署 MySQL + Golang + Nginx + Beego 的联合环境"></a>部署 MySQL + Golang + Nginx + Beego 的联合环境</h1><h2 id="官方镜像"><a href="#官方镜像" class="headerlink" title="官方镜像"></a>官方镜像</h2><p>执行 <figure class="highlight docker"><figcaption><span>pull``` 命令，从官方下载最新镜像</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">```docker</div><div class="line">➜  mvoice git:(master) ✗ docker pull golang        </div><div class="line">➜  mvoice git:(master) ✗ docker pull mysql </div><div class="line">➜  mvoice git:(master) ✗ docker pull nginx</div></pre></td></tr></table></figure></p>
+<h2 id="定制-Beego-镜像"><a href="#定制-Beego-镜像" class="headerlink" title="定制 Beego 镜像"></a>定制 Beego 镜像</h2><h3 id="编写-Dockerfile-文件"><a href="#编写-Dockerfile-文件" class="headerlink" title="编写 Dockerfile 文件"></a>编写 Dockerfile 文件</h3><figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">FROM</span> golang:latest</div><div class="line"><span class="keyword">MAINTAINER</span> N.Y. &lt;nycode.jn@gmail.com&gt;</div><div class="line"></div><div class="line"><span class="keyword">RUN</span><span class="bash"> go get -u github.com/go-sql-driver/mysql</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> go get -u github.com/astaxie/beego</span></div><div class="line"><span class="keyword">RUN</span><span class="bash"> go get -u github.com/beego/bee</span></div><div class="line"></div><div class="line"><span class="keyword">EXPOSE</span> <span class="number">8080</span></div></pre></td></tr></table></figure>
+<h3 id="编译定制的镜像"><a href="#编译定制的镜像" class="headerlink" title="编译定制的镜像"></a>编译定制的镜像</h3><figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker build -t beego .</div></pre></td></tr></table></figure>
+<h2 id="运行-MySQL"><a href="#运行-MySQL" class="headerlink" title="运行 MySQL"></a>运行 MySQL</h2><h3 id="运行容器"><a href="#运行容器" class="headerlink" title="运行容器"></a>运行容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --name nyspace-mysql -e MYSQL_ROOT_PASSWORD=root -d mysql</div></pre></td></tr></table></figure>
+<h3 id="链接-MySQL"><a href="#链接-MySQL" class="headerlink" title="链接 MySQL"></a>链接 MySQL</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -it --link nyspace-mysql:mysql --rm mysql sh -c &apos;exec mysql -h&quot;$MYSQL_PORT_3306_TCP_ADDR&quot; -P&quot;$MYSQL_PORT_3306_TCP_PORT&quot; -uroot -p&quot;$MYSQL_ENV_MYSQL_ROOT_PASSWORD&quot;&apos;</div></pre></td></tr></table></figure>
+<h3 id="初始化数据库和数据表"><a href="#初始化数据库和数据表" class="headerlink" title="初始化数据库和数据表"></a>初始化数据库和数据表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">show databases;</div><div class="line">create database mvoice;</div><div class="line">use mvoice;</div><div class="line">create table mvoice_user(</div><div class="line">    user_id INT NOT NULL AUTO_INCREMENT,</div><div class="line">    user_nick VARCHAR(50) NOT NULL,</div><div class="line">    user_udid VARCHAR(500) NOT NULL default &quot;&quot;,</div><div class="line">    user_password VARCHAR(500) NOT NULL,</div><div class="line">    user_created TIMESTAMP NOT NULL default CURRENT_TIMESTAMP,</div><div class="line">    user_ip VARCHAR(20) NOT NULL default &quot;&quot;,</div><div class="line">    user_mobile VARCHAR(100) NOT NULL default &quot;&quot;,</div><div class="line">    PRIMARY KEY (user_id)</div><div class="line">    );</div><div class="line"></div><div class="line">insert into mvoice_user(user_nick, user_password) values(&quot;niyao&quot;, &quot;75982c3df99fceb352f76ddaa9357b5d&quot;);</div><div class="line"></div><div class="line">select * from mvoice_user;</div></pre></td></tr></table></figure>
+<h2 id="运行-Beego-API"><a href="#运行-Beego-API" class="headerlink" title="运行 Beego API"></a>运行 Beego API</h2><h3 id="生成-Beego-Api-应用"><a href="#生成-Beego-Api-应用" class="headerlink" title="生成 Beego Api 应用"></a>生成 Beego Api 应用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --rm --link db:mysql -v &quot;$(pwd)&quot;:/go/src/ -w /go/src beego bee api api -conn=&quot;root:root@tcp(mysql:3306)/mvoice&quot;</div></pre></td></tr></table></figure>
+<h3 id="运行-Api-应用"><a href="#运行-Api-应用" class="headerlink" title="运行 Api 应用"></a>运行 Api 应用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --rm --link db:mysql -v &quot;$(pwd)/api&quot;:/go/src/api -w /go/src/api -p 8080:8080 --name api beego bee run -downdoc=true -gendoc=true</div></pre></td></tr></table></figure>
+<h2 id="运行-Nginx"><a href="#运行-Nginx" class="headerlink" title="运行 Nginx"></a>运行 Nginx</h2><h3 id="启动-Nginx，链接容器"><a href="#启动-Nginx，链接容器" class="headerlink" title="启动 Nginx，链接容器"></a>启动 Nginx，链接容器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run --name nginx --link api:beego -v &quot;$(pwd)&quot;/nginx:/etc/nginx/conf.d/ -p 80:80 -d nginx</div></pre></td></tr></table></figure>
+<p>绑定 80 端口后访问 <a href="http://localhost/swagger/" target="_blank" rel="external">http://localhost/swagger/</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="利用-Docker-搭建直播服务环境"><a href="#利用-Docker-搭建直播服务环境" class="headerlink" title="利用 Docker 搭建直播服务环境"></a>利用 Docker 搭建直播服务环境</h3><p>Docker 的好处就是部署环境非常方便，比如，我的 Mac 本地不需要安装 Golang 的编译运行环境，但是利用 Docker 就可以运行带有 Golang 应用的容器，对于应用部署环境的管理是非常方便的。</p>
+<p>之前有一段时间在看直播相关的内容，直播的服务环境需要部署 Nginx + ffmpeg 的环境，但是如果直接安装到自己的电脑上也会出现很多问题，然而直接用 Docker 来部署环境就非常方便，如果不用了就可以直接删除掉，也不会污染自己本机的开发坏境。这里分享一个比较不错的直播 Docker 镜像。</p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker pull alfg/nginx-rtmp</div><div class="line">docker <span class="keyword">run</span><span class="bash"> -it -p 1935:1935 -p 8080:80 --rm alfg/nginx-rtmp</span></div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>本文主要介绍了 Docker 的相关概念、Docker 的基本使用，以及 Docker 部署 Golang Web App 的方法。</p>
+<ul>
+<li>Docker 是 C/S 架构的，包含服务端（dockerd 命令）、REST API和 Docker 客户端（CLI docker 命令）。</li>
+<li><strong>镜像是一个用指令来创建 Docker 容器的只读模板。</strong></li>
+<li><strong>容器是一个可运行的镜像的实例。</strong></li>
+</ul>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li>Docker 概述 <a href="https://docs.docker.com/engine/docker-overview/" target="_blank" rel="external">https://docs.docker.com/engine/docker-overview/</a></li>
+<li>Docker run reference <a href="https://docs.docker.com/engine/reference/run/" target="_blank" rel="external">https://docs.docker.com/engine/reference/run/</a></li>
+<li>Docker 从入门到实践 <a href="https://yeasy.gitbooks.io/docker_practice/" target="_blank" rel="external">https://yeasy.gitbooks.io/docker_practice/</a></li>
+<li>装在 Docker 里面的 Beego <a href="https://github.com/lei-cao/beego-in-action/blob/master/zh/beego-in-docker.md" target="_blank" rel="external">https://github.com/lei-cao/beego-in-action/blob/master/zh/beego-in-docker.md</a></li>
+<li>ECS上搭建Docker(CentOS7) <a href="https://help.aliyun.com/document_detail/51853.html?spm=5176.doc25426.6.724.TDd5eg" target="_blank" rel="external">https://help.aliyun.com/document_detail/51853.html?spm=5176.doc25426.6.724.TDd5eg</a></li>
+<li>Simple Go Web App <a href="https://github.com/niyaoyao/http-response-for-go-web-application" target="_blank" rel="external">https://github.com/niyaoyao/http-response-for-go-web-application</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">赞赏</span>
+      <div class="donation-body">
+        <div class="tip text-center">感谢支持～ 😘</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/05/10/what-the-thread-it-is/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'N.Y.';
+    
+    var disqus_url = 'http://yoursite.com/2017/10/03/docker-for-golang-web-app/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//N.Y..disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
