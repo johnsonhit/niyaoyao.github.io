@@ -5,7 +5,7 @@
 
 
 <head>
-  <meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
   <title>线程到底是什么？ | N.Y.</title>
 
@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://niyaoyao.github.io/images/flow-of-thread-creation.png">
 <meta property="og:image" content="https://niyaoyao.github.io/images/nsthread-callstacksymbols.png">
 <meta property="og:image" content="https://niyaoyao.github.io/images/runloop.png">
-<meta property="og:updated_time" content="2017-10-03T04:30:04.000Z">
+<meta property="og:updated_time" content="2018-05-24T12:26:48.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程到底是什么？">
 <meta name="twitter:description" content="前言本文是以笔者学习中遇到的一个小场景作为线索，从而引发笔者诸如“什么是进程？”“什么是线程？” “GCD 和线程关系是什么？” “NSRunLoop 是什么？”“NSRunLoop 和线程关系是什么？”等诸多疑问，随后又根据这些疑问，一步步抽丝剥茧，找寻这些问题答案的文章。
@@ -101,7 +101,7 @@
   
 
   
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 </head>
 
@@ -109,7 +109,7 @@
 
 
   
-    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><span id="toolbox-mobile" class="toolbox-mobile">导航</span>
   
 
   <div class="post-header CENTER">
@@ -174,7 +174,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#场景再现"><span class="toc-text">场景再现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进程和线程"><span class="toc-text">进程和线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源竞争"><span class="toc-text">资源竞争</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决内存资源的竞争：分页"><span class="toc-text">解决内存资源的竞争：分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决-CPU-资源的竞争：调度"><span class="toc-text">解决 CPU 资源的竞争：调度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GCD-源码研读"><span class="toc-text">GCD 源码研读</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-GCD-队列"><span class="toc-text">创建 GCD 队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置-Timer-事件回调"><span class="toc-text">设置 Timer 事件回调</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Thead"><span class="toc-text">Thead</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BSD-层的-pthread"><span class="toc-text">BSD 层的 pthread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mach-thread-与-pthread-的关系"><span class="toc-text">Mach thread 与 pthread 的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Run-Loop"><span class="toc-text">Run Loop</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSRunLoop-与-CFRunLoop"><span class="toc-text">NSRunLoop 与 CFRunLoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CFRunLoop-相关-API"><span class="toc-text">CFRunLoop 相关 API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observer"><span class="toc-text">Observer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timer"><span class="toc-text">Timer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source"><span class="toc-text">Source</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CFRunLoopRun"><span class="toc-text">CFRunLoopRun</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小彩蛋"><span class="toc-text">小彩蛋</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本文案例源码"><span class="toc-text">本文案例源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apple-Opensource-查阅指南"><span class="toc-text">Apple Opensource 查阅指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码说明"><span class="toc-text">源码说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
@@ -237,7 +237,7 @@
 <li>探究 BSD／POSIX 的 pthread 和 Mach 抽象层的 thread</li>
 <li>探究 NSRunloop(CFRunloop) </li>
 </ul>
-<p><em>如果你对线程底层实现以及 XNU 内核感兴趣，或许这篇文章会对你有帮助。本文大部分是探究的过程，如果想跳过过程，可直接点击<a href="https://niyaoyao.github.io/2017/05/10/what-the-thread-it-is/#结论" target="_blank" rel="external">结论</a></em></p>
+<p>_如果你对线程底层实现以及 XNU 内核感兴趣，或许这篇文章会对你有帮助。本文大部分是探究的过程，如果想跳过过程，可直接点击<a href="https://niyaoyao.github.io/2017/05/10/what-the-thread-it-is/#结论" target="_blank" rel="external">结论</a>_</p>
 <h1 id="场景再现"><a href="#场景再现" class="headerlink" title="场景再现"></a>场景再现</h1><p>某天，笔者想在 OS X Command Line 的 main 函数直接创建 timer，输出 CPU 使用和内存使用数据。代码如下所示。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">dispatch_queue_t</span> monitor_queue() &#123;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">dispatch_queue_t</span> monitor_queue;</div><div class="line">    <span class="keyword">static</span> <span class="keyword">dispatch_once_t</span> onceToken;</div><div class="line">    dispatch_once(&amp;onceToken, ^&#123;</div><div class="line">        monitor_queue = dispatch_queue_create(<span class="string">"ny.monitor.queue"</span>, DISPATCH_QUEUE_CONCURRENT);</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> monitor_queue;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;</div><div class="line">    @autoreleasepool &#123;</div><div class="line">        <span class="keyword">dispatch_source_t</span> timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, <span class="number">0</span>, <span class="number">0</span>, monitor_queue());</div><div class="line">        dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, <span class="number">1</span> * NSEC_PER_SEC, <span class="number">0</span> * NSEC_PER_SEC);</div><div class="line">        dispatch_source_set_event_handler(timer, ^&#123;</div><div class="line">            <span class="built_in">printf</span>(<span class="string">"CPU Usage[%d]: %f％\n"</span></div><div class="line">                   <span class="string">"Used Memory/Free Memory : %lu/%lu\n"</span></div><div class="line">                   , count++, app_cpu_usage(), get_used_memory(), get_free_memory()); <span class="comment">// print before plus</span></div><div class="line">            <span class="keyword">if</span> (!fireTimer) &#123;</div><div class="line">                dispatch_source_cancel(timer);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        dispatch_resume(timer);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>然而，运行程序之后，结果并未如笔者所期望的那样，触发 timer 设置的回调 block，而是直接终止进程，这是什么情况？—— 为什么在 iOS 工程下，可以得到想要的数据输出。然而，完全相同的代码直接复制到命令行工程中，main 函数却直接 return 而结束进程。</p>
@@ -462,6 +462,7 @@
 <li>Libc 源码采用 Libc-498.1.7、Libc-1158.50.2。</li>
 <li>Core Foundation 源码采用 CF-299，CF-1152.14，CF-1153.18。</li>
 </ul>
+<p>本文如有任何错误或问题欢迎到<a href="https://github.com/niyaoyao/niyaoyao.github.io/issues/new" target="_blank" rel="external">这里</a> 提 issue，一起交流学习，共同进步成长 😊。</p>
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
 <li>《Mac OS X and iOS Internals: To the Apple’s Core》</li>
 <li>《OS X and iOS Kernel Programming》</li>
@@ -479,6 +480,9 @@
 
     
   </div>
+  
+  <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+  
 </article>
 
 
@@ -531,7 +535,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -657,7 +661,7 @@
       // load success
     });
   }
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>

@@ -5,7 +5,7 @@
 
 
 <head>
-  <meta charset="utf-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
   <title>今天开始学逆向：反汇编的利器 IDA 和 Hopper 的基本使用 | N.Y.</title>
 
@@ -102,7 +102,7 @@
   
 
   
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 </head>
 
@@ -110,7 +110,7 @@
 
 
   
-    <span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><span id="toolbox-mobile" class="toolbox-mobile">导航</span>
   
 
   <div class="post-header CENTER">
@@ -175,7 +175,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态分析与静态分析"><span class="toc-text">动态分析与静态分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#动态分析"><span class="toc-text">动态分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分析"><span class="toc-text">静态分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IDA-的基本使用"><span class="toc-text">IDA 的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-IDA"><span class="toc-text">什么是 IDA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-IDA"><span class="toc-text">安装 IDA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IDA-Pro-的使用"><span class="toc-text">IDA Pro 的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备-Mach-O"><span class="toc-text">准备 Mach-O</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导入-IDA"><span class="toc-text">导入 IDA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#认识-IDA-工作区"><span class="toc-text">认识 IDA 工作区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分析：还原源代码"><span class="toc-text">静态分析：还原源代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建工程"><span class="toc-text">创建工程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法名和参数"><span class="toc-text">方法名和参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法函数体"><span class="toc-text">方法函数体</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hopper-的基本使用"><span class="toc-text">Hopper 的基本使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是-Hopper"><span class="toc-text">什么是 Hopper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装-Hopper"><span class="toc-text">安装 Hopper</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hopper-的使用"><span class="toc-text">Hopper 的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导入-Hopper"><span class="toc-text">导入 Hopper</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#认识-Hopper-工作区"><span class="toc-text">认识 Hopper 工作区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态分析：Hopper-反汇编的伪代码"><span class="toc-text">静态分析：Hopper 反汇编的伪代码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#题外话"><span class="toc-text">题外话</span></a></li></ol>
   </div>
 
@@ -239,7 +239,7 @@
 <li>利用 Cycript 进行应用运行时的动态分析与修改</li>
 </ul>
 <p>这么一看确实学了不少技能，而接下来这篇文章，会简单介绍两个反编译的利器 IDA 和 Hopper 的使用。</p>
-<p><em>注，本次实验利用的并不是最新版本的支付宝 Mach-O 文件，因此可能本次实验中涉及的函数方法在最新版本中无法找到，但由于本文章只作为学习，所以，只提供具体的方法。如果有需要，可自行砸壳获得。</em></p>
+<p>_注，本次实验利用的并不是最新版本的支付宝 Mach-O 文件，因此可能本次实验中涉及的函数方法在最新版本中无法找到，但由于本文章只作为学习，所以，只提供具体的方法。如果有需要，可自行砸壳获得。_</p>
 <h1 id="动态分析与静态分析"><a href="#动态分析与静态分析" class="headerlink" title="动态分析与静态分析"></a>动态分析与静态分析</h1><h2 id="动态分析"><a href="#动态分析" class="headerlink" title="动态分析"></a>动态分析</h2><p>我们前两篇学习的 Cycript ，就是典型的动态分析工具。Cycript 可以在应用进行运行时方法分析，视图层级分析等操作。而动态分析除了 Cycript 以外，常用的工具还有 lldb &amp; debugserver 远程断点调试，logify 追踪等，以后一起慢慢学习这些技能方法。</p>
 <h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p><strong>Static program analysis is the analysis of computer software that is performed without actually executing programs (analysis performed on executing programs is known as dynamic analysis).[1] In most cases the analysis is performed on some version of the source code, and in the other cases, some form of the object code.</strong></p>
 <p>以上是 Wikipedia 对静态分析的英文介绍，中文翻译如下。</p>
@@ -314,6 +314,9 @@
 
     
   </div>
+  
+  <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+  
 </article>
 
 
@@ -366,7 +369,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -492,7 +495,7 @@
       // load success
     });
   }
-</script>
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </body>
 </html>
