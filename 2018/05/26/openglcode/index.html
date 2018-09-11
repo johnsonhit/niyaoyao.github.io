@@ -152,7 +152,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenGL-Programming-with-Cocoa"><span class="toc-text">OpenGL Programming with Cocoa</span></a></li></ol>
   </div>
 
@@ -201,6 +201,12 @@
 
       
       
+      
+        
+        
+        
+      
+   
     </div>
   </header>
 
@@ -299,12 +305,29 @@
 
 
 
+<!-- Gitment评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "niyaoyao",//github用户名
+  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
+  oauth: {
+    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
+    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
+  },
+})
+gitment.render('git')
+</script>
+<!-- Gitment代码结束 -->
+
 
   <div class="modal" id="modal">
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -430,7 +453,24 @@
       // load success
     });
   }
-</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 
 </body>
 </html>

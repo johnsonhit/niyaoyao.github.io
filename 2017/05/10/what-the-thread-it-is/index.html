@@ -174,7 +174,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#场景再现"><span class="toc-text">场景再现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进程和线程"><span class="toc-text">进程和线程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程"><span class="toc-text">进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源竞争"><span class="toc-text">资源竞争</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决内存资源的竞争：分页"><span class="toc-text">解决内存资源的竞争：分页</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解决-CPU-资源的竞争：调度"><span class="toc-text">解决 CPU 资源的竞争：调度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#GCD-源码研读"><span class="toc-text">GCD 源码研读</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建-GCD-队列"><span class="toc-text">创建 GCD 队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置-Timer-事件回调"><span class="toc-text">设置 Timer 事件回调</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Thead"><span class="toc-text">Thead</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#BSD-层的-pthread"><span class="toc-text">BSD 层的 pthread</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mach-thread-与-pthread-的关系"><span class="toc-text">Mach thread 与 pthread 的关系</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Run-Loop"><span class="toc-text">Run Loop</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSRunLoop-与-CFRunLoop"><span class="toc-text">NSRunLoop 与 CFRunLoop</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CFRunLoop-相关-API"><span class="toc-text">CFRunLoop 相关 API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observer"><span class="toc-text">Observer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timer"><span class="toc-text">Timer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Source"><span class="toc-text">Source</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CFRunLoopRun"><span class="toc-text">CFRunLoopRun</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结论"><span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小彩蛋"><span class="toc-text">小彩蛋</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#本文案例源码"><span class="toc-text">本文案例源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apple-Opensource-查阅指南"><span class="toc-text">Apple Opensource 查阅指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码说明"><span class="toc-text">源码说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
   </div>
 
@@ -223,6 +223,12 @@
 
       
       
+      
+        
+        
+        
+      
+   
     </div>
   </header>
 
@@ -530,12 +536,29 @@
 
 
 
+<!-- Gitment评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "niyaoyao",//github用户名
+  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
+  oauth: {
+    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
+    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
+  },
+})
+gitment.render('git')
+</script>
+<!-- Gitment代码结束 -->
+
 
   <div class="modal" id="modal">
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">
