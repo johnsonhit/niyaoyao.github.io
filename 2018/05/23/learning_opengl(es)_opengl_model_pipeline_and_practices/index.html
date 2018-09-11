@@ -177,7 +177,7 @@ OpenGL 的 C/S 模型架构。OpenGL 使用 Client - Server 模型，客户端�
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">Posts List</strong>
+    <strong class="toc-title">文章目录</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenGL-Model"><span class="toc-text">OpenGL Model</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Screen-Rendering"><span class="toc-text">Screen Rendering</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#About-OpenGL"><span class="toc-text">About OpenGL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Client-Server-Model"><span class="toc-text">Client-Server Model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rendering-Context"><span class="toc-text">Rendering Context</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Offscreen-Rendering"><span class="toc-text">Offscreen Rendering</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenGL-Pipeline-and-Shader"><span class="toc-text">OpenGL Pipeline and Shader</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Programmable-Vertex-Processing"><span class="toc-text">Programmable Vertex Processing</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Vertex-Shaders"><span class="toc-text">Vertex Shaders</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vertex-Input"><span class="toc-text">Vertex Input</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vertex-Attribute-Values"><span class="toc-text">Vertex Attribute Values</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Primitive-Assembly"><span class="toc-text">Primitive Assembly</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Geometry-Shader"><span class="toc-text">Geometry Shader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rasterization"><span class="toc-text">Rasterization</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fragment-Shader"><span class="toc-text">Fragment Shader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenGL-Programming-Practice"><span class="toc-text">OpenGL Programming Practice</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenGL-Profile"><span class="toc-text">OpenGL Profile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Shader-Rendering-with-VBO-EBO-VAO"><span class="toc-text">Shader Rendering with VBO, EBO, VAO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Current-Context"><span class="toc-text">Current Context</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vertex-Shader-Fragment-Shader-Shader-Program"><span class="toc-text">Vertex Shader, Fragment Shader, Shader Program</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VBO-EBO-VAO"><span class="toc-text">VBO, EBO, VAO</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#VBO"><span class="toc-text">VBO</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VAO"><span class="toc-text">VAO</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#EBO"><span class="toc-text">EBO</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Bind-Buffer-and-Draw"><span class="toc-text">Bind Buffer and Draw</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Additional"><span class="toc-text">Additional</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Easter-Eggs"><span class="toc-text">Easter Eggs</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Donate"><span class="toc-text">Donate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol>
   </div>
 
@@ -226,12 +226,6 @@ OpenGL 的 C/S 模型架构。OpenGL 使用 Client - Server 模型，客户端�
 
       
       
-      
-        
-        
-        
-      
-   
     </div>
   </header>
 
@@ -616,29 +610,13 @@ OpenGL 的 C/S 模型架构。OpenGL 使用 Client - Server 模型，客户端�
 
 
 
-<!-- Gitment评论插件通用代码 -->
-<div id="git"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-  owner: "niyaoyao",//github用户名
-  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
-  oauth: {
-    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
-    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
-  },
-})
-gitment.render('git')
-</script>
-<!-- Gitment代码结束 -->
 
 
   <div class="modal" id="modal">
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">Close</span>
+      <span id="close" class="btn-close">关闭</span>
     </div>
     <hr>
     <div class="modal-body">
@@ -699,39 +677,23 @@ gitment.render('git')
   
       <div class="fexo-comments comments-post">
     
-  <section class="disqus-comments">
-    <div id="disqus_thread">
-      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>
-  </section>
+	<!-- Gitment评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "niyaoyao",//github用户名
+  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
+  oauth: {
+    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
+    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
+  },
+})
+gitment.render('git')
+</script>
+<!-- Gitment代码结束 -->
 
-  <script>
-    var disqus_shortname = 'N.Y.';
-    
-    var disqus_url = 'http://yoursite.com/2018/05/23/learning_opengl(es)_opengl_model_pipeline_and_practices/';
-    
-    (function(){
-      var dsq = document.createElement('script');
-      dsq.type = 'text/javascript';
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-
-  <script id="dsq-count-scr" src="//N.Y..disqus.com/count.js" async></script>
-
-
-
-    
-
-
-
-
-    
-
-    
-	
   </div>
 
   
