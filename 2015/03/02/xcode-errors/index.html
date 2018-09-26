@@ -19,7 +19,7 @@
 Undefined symbols
 在链接过程中找不到符号表
 
-12345Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in App">
+Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in AppDeleg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xcode 开发的出错整理">
 <meta property="og:url" content="http://yoursite.com/2015/03/02/xcode-errors/index.html">
@@ -28,7 +28,7 @@ Undefined symbols
 Undefined symbols
 在链接过程中找不到符号表
 
-12345Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in App">
+Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in AppDeleg">
 <meta property="og:updated_time" content="2017-09-27T09:33:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Xcode 开发的出错整理">
@@ -36,7 +36,7 @@ Undefined symbols
 Undefined symbols
 在链接过程中找不到符号表
 
-12345Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in App">
+Undefined symbols for architecture i386:  &amp;quot;_OBJC_CLASS_$_ShareService&amp;quot;, referenced from:      objc-class-ref in AppDeleg">
 
   
 
@@ -219,7 +219,7 @@ Undefined symbols
 <h3 id="Undefined-symbols"><a href="#Undefined-symbols" class="headerlink" title="Undefined symbols"></a>Undefined symbols</h3><ul>
 <li>在链接过程中找不到符号表</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Undefined symbols for architecture i386:</div><div class="line">  &quot;_OBJC_CLASS_$_ShareService&quot;, referenced from:</div><div class="line">      objc-class-ref in AppDelegate.o</div><div class="line">ld: symbol(s) not found for architecture i386</div><div class="line">clang: error: linker command failed with exit code 1 (use -v to see invocation)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Undefined symbols for architecture i386:</div><div class="line">  &quot;_OBJC_CLASS_$_ShareService&quot;, referenced from:</div><div class="line">      objc-class-ref in AppDelegate.o</div><div class="line">ld: symbol(s) not found for architecture i386</div><div class="line">clang: error: linker command failed with exit code 1 (use -v to see invocation)</div></pre></td></tr></table></figure>
 <p>解决办法 </p>
 <ul>
 <li><p>TargetSettings -&gt; Build Phases -&gt; Compile Sources -&gt; add your .m class -&gt;Build and Run</p>
@@ -228,7 +228,7 @@ Undefined symbols
 </li>
 </ul>
 <p>链接过程找不到符号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Undefined symbols for architecture i386:</div><div class="line">  &quot;_OBJC_CLASS_$_SendMessageToWXReq&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_SendMessageToWXResp&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXApi&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXMediaMessage&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareObject-7F9E83398E91668B.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXWebpageObject&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareObject-7F9E83398E91668B.o</div><div class="line">ld: symbol(s) not found for architecture i386</div><div class="line">clang: error: linker command failed with exit code 1 (use -v to see invocation)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Undefined symbols for architecture i386:</div><div class="line">  &quot;_OBJC_CLASS_$_SendMessageToWXReq&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_SendMessageToWXResp&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXApi&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareService-975EADE79707A8E.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXMediaMessage&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareObject-7F9E83398E91668B.o</div><div class="line">  &quot;_OBJC_CLASS_$_WXWebpageObject&quot;, referenced from:</div><div class="line">      objc-class-ref in ShareObject-7F9E83398E91668B.o</div><div class="line">ld: symbol(s) not found for architecture i386</div><div class="line">clang: error: linker command failed with exit code 1 (use -v to see invocation)</div></pre></td></tr></table></figure>
 <p>解决办法</p>
 <ol>
 <li>Build Settings -&gt; Other Linker Flags 添加需要的 flag</li>

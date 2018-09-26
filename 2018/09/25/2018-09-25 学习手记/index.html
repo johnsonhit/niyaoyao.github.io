@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>2018-09-25 学习手记：JavaScript Modules 和 Express Middleware | N.Y.</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Node,Express Middleware,JavaScript Module," />
+  
+
+  <meta name="description" content="今天仍然是以学习公司后端项目代码为主，学习了有关 JavaScript Module 和 Express Middleware 的相关内容。诚如 9 月 19 日学习手记所言，由于后端代码模块化非常深，所以我这个渣渣学习起来比较费时间。不过，通过今天的学习，对于项目的架构有了更深入的认识，接下来先介绍下  JavaScript Module 和 Express Middleware 两个概念。
+J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018-09-25 学习手记：JavaScript Modules 和 Express Middleware">
+<meta property="og:url" content="http://yoursite.com/2018/09/25/2018-09-25 学习手记/index.html">
+<meta property="og:site_name" content="N.Y.">
+<meta property="og:description" content="今天仍然是以学习公司后端项目代码为主，学习了有关 JavaScript Module 和 Express Middleware 的相关内容。诚如 9 月 19 日学习手记所言，由于后端代码模块化非常深，所以我这个渣渣学习起来比较费时间。不过，通过今天的学习，对于项目的架构有了更深入的认识，接下来先介绍下  JavaScript Module 和 Express Middleware 两个概念。
+J">
+<meta property="og:image" content="http://yoursite.com/./images/js_modules_arc.png">
+<meta property="og:updated_time" content="2018-09-26T08:12:56.989Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018-09-25 学习手记：JavaScript Modules 和 Express Middleware">
+<meta name="twitter:description" content="今天仍然是以学习公司后端项目代码为主，学习了有关 JavaScript Module 和 Express Middleware 的相关内容。诚如 9 月 19 日学习手记所言，由于后端代码模块化非常深，所以我这个渣渣学习起来比较费时间。不过，通过今天的学习，对于项目的架构有了更深入的认识，接下来先介绍下  JavaScript Module 和 Express Middleware 两个概念。
+J">
+<meta name="twitter:image" content="http://yoursite.com/./images/js_modules_arc.png">
+
+  
+
+  
+    <link rel="icon" href="https://niyaoyao.github.io/images/avatar_ny.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+<body>
+
+
+  
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-Modules"><span class="toc-text">JavaScript Modules</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Express-Middleware"><span class="toc-text">Express Middleware</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Express-Middleware-类型"><span class="toc-text">Express Middleware 类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Application-level-middleware"><span class="toc-text">Application-level middleware</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Router-level-middleware"><span class="toc-text">Router-level middleware</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Error-handling-middleware"><span class="toc-text">Error-handling middleware</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Built-in-middleware"><span class="toc-text">Built-in middleware</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Third-party-middleware"><span class="toc-text">Third-party middleware</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#项目实践"><span class="toc-text">项目实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#app-js"><span class="toc-text">app.js</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#controllers"><span class="toc-text">controllers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#index-js"><span class="toc-text">index.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#test-js"><span class="toc-text">test.js</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#models-模块"><span class="toc-text">models 模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#router"><span class="toc-text">router</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Architecture"><span class="toc-text">Architecture</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-text">Summary</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-2018-09-25 学习手记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">2018-09-25 学习手记：JavaScript Modules 和 Express Middleware</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.09.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Niyao</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Backend/">Backend</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.niyao.space/2018/09/25/2018-09-25 学习手记/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>今天仍然是以学习公司后端项目代码为主，学习了有关 JavaScript Module 和 Express Middleware 的相关内容。诚如 9 月 19 日学习手记所言，由于后端代码模块化非常深，所以我这个渣渣学习起来比较费时间。不过，通过今天的学习，对于项目的架构有了更深入的认识，接下来先介绍下  JavaScript Module 和 Express Middleware 两个概念。</p>
+<h2 id="JavaScript-Modules"><a href="#JavaScript-Modules" class="headerlink" title="JavaScript Modules"></a>JavaScript Modules</h2><blockquote>
+<p>In JavaScript, the word “modules” refers to small units of independent, reusable code.<br><em><a href="https://spring.io/understanding/javascript-modules" target="_blank" rel="external">JavaScript Modules</a></em></p>
+<p>A module encapsulates related code into a single unit of code.<br><em><a href="https://www.sitepoint.com/understanding-module-exports-exports-node-js/" target="_blank" rel="external">Understanding Module Exports Exports Nodejs</a></em></p>
+</blockquote>
+<p>从上面的描述可以了解，对于 JavaScript 而言，模块 Module 其实就是一段代码，而这段代码可以是对象、函数、HTML 模版或是 CSS 样式。有关更多模块化的内容可以想见本次推送的另一篇佳作《从 include到 require - 论 node require 设计》，这里不做更多讨论。</p>
+<h2 id="Express-Middleware"><a href="#Express-Middleware" class="headerlink" title="Express Middleware"></a>Express Middleware</h2><blockquote>
+<p>Express is a routing and middleware web framework that has minimal functionality of its own: An Express application is essentially a series of middleware function calls.</p>
+<p>Middleware functions are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named next.</p>
+</blockquote>
+<p>Express 是一个路由和中间件 Web 框架，其自身只具有最低程度的功能：Express 应用程序基本上是一系列中间件函数调用。<br>中间件函数能够访问请求对象 (req)、响应对象 (res) 以及应用程序的请求/响应循环中的下一个中间件函数。下一个中间件函数通常由名为 next 的变量来表示。</p>
+<h3 id="Express-Middleware-类型"><a href="#Express-Middleware-类型" class="headerlink" title="Express Middleware 类型"></a>Express Middleware 类型</h3><h4 id="Application-level-middleware"><a href="#Application-level-middleware" class="headerlink" title="Application-level middleware"></a>Application-level middleware</h4><p>使用 app.use() 和 app.METHOD() 函数将应用层中间件绑定到应用程序对象的实例，其中 METHOD 是中间件函数处理的请求的小写 HTTP 方法（例如 GET、PUT 或 POST）。比如，下面就是利用 app 的应用层中间件 use 函数。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> app = Express();</div><div class="line"></div><div class="line"><span class="keyword">var</span> router = <span class="built_in">require</span>(<span class="string">'./router'</span>);</div><div class="line"><span class="keyword">var</span> models = <span class="built_in">require</span>(<span class="string">'./models'</span>);</div><div class="line"><span class="keyword">var</span> controllers = <span class="built_in">require</span>(<span class="string">'./controllers'</span>);</div><div class="line"></div><div class="line">app.use(BodyParser.json());</div><div class="line">app.use(router);</div></pre></td></tr></table></figure>
+<h4 id="Router-level-middleware"><a href="#Router-level-middleware" class="headerlink" title="Router-level middleware"></a>Router-level middleware</h4><p>路由器层中间件的工作方式与应用层中间件基本相同，差异之处在于它绑定到 express.Router() 的实例。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> router = express.Router();</div></pre></td></tr></table></figure>
+<h4 id="Error-handling-middleware"><a href="#Error-handling-middleware" class="headerlink" title="Error-handling middleware"></a>Error-handling middleware</h4><p>错误处理中间件函数的定义方式与其他中间件函数基本相同，差别在于错误处理函数有四个自变量而不是三个，专门具有特征符 (err, req, res, next).</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">app.use(<span class="function"><span class="keyword">function</span>(<span class="params">err, req, res, next</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.error(err.stack);</div><div class="line">  res.status(<span class="number">500</span>).send(<span class="string">'Something broke!'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="Built-in-middleware"><a href="#Built-in-middleware" class="headerlink" title="Built-in middleware"></a>Built-in middleware</h4><p>Express 内置中间件包括:</p>
+<ul>
+<li>express.static 提供静态资源服务，例如 HTML 文件、图片等。</li>
+<li>express.json 解析收到的 JSON 负载请求。NOTE: Express 4.16.0+ 可用。</li>
+<li>express.urlencoded 解析收到的 URL 编码负载的请求。 NOTE: Express 4.16.0+ 可用。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">app.use(express.static(<span class="string">'public'</span>));</div><div class="line">app.use(express.static(<span class="string">'uploads'</span>));</div><div class="line">app.use(express.static(<span class="string">'files'</span>));</div></pre></td></tr></table></figure>
+<h4 id="Third-party-middleware"><a href="#Third-party-middleware" class="headerlink" title="Third-party middleware"></a>Third-party middleware</h4><p>使用第三方中间件向 Express 应用程序添加功能。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> Router = <span class="built_in">require</span>(<span class="string">'express-promise-router'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="built_in">require</span>(<span class="string">'../controllers'</span>);</div><div class="line"><span class="keyword">var</span> r = Router();</div><div class="line"></div><div class="line"><span class="comment">/// test</span></div><div class="line">r.get(<span class="string">'/'</span>, c.test.hello);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = r;</div></pre></td></tr></table></figure>
+<h2 id="项目实践"><a href="#项目实践" class="headerlink" title="项目实践"></a>项目实践</h2><p>我比着公司项目的葫芦画了个小葫芦，项目文件目录如下。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">.</div><div class="line">|____bin</div><div class="line">| |____www</div><div class="line">|____models</div><div class="line">| |____user.js</div><div class="line">| |____index.js</div><div class="line">|____public</div><div class="line">| |____images</div><div class="line">| |____javascripts</div><div class="line">| |____stylesheets</div><div class="line">| | |____style.css</div><div class="line">|____package.json</div><div class="line">|____errors.js</div><div class="line">|____helpers.js</div><div class="line">|____controllers</div><div class="line">| |____test.js</div><div class="line">| |____index.js</div><div class="line">|____views</div><div class="line">| |____error.jade</div><div class="line">| |____index.jade</div><div class="line">| |____layout.jade</div><div class="line">|____app.js</div><div class="line">|____router</div><div class="line">| |____index.js</div></pre></td></tr></table></figure>
+<p>其中，与 Node Express Modules 编程的相关目录/文件是 models/<em> 、 controllers/</em> 、 router/* 、 helpers.js 和 app.js 等文件。</p>
+<h3 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h3><p>其中 app.js 文件主要进行模块的组装，将拆分后的 Model、 Controller、 Router 等模块组装在一起。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> Express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> BodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>);</div><div class="line"><span class="keyword">var</span> PromiseRouter = <span class="built_in">require</span>(<span class="string">'express-promise-router'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> helpers = <span class="built_in">require</span>(<span class="string">'./helpers'</span>);</div><div class="line"><span class="built_in">Object</span>.assign(Express.request, helpers.Request);</div><div class="line"><span class="built_in">Object</span>.assign(Express.response, helpers.Response);</div><div class="line"></div><div class="line"><span class="keyword">var</span> app = Express();</div><div class="line"></div><div class="line"><span class="keyword">var</span> router = <span class="built_in">require</span>(<span class="string">'./router'</span>);</div><div class="line"><span class="keyword">var</span> models = <span class="built_in">require</span>(<span class="string">'./models'</span>);</div><div class="line"><span class="keyword">var</span> controllers = <span class="built_in">require</span>(<span class="string">'./controllers'</span>);</div><div class="line"></div><div class="line">app.use(BodyParser.json());</div><div class="line">app.use(router);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = app;</div></pre></td></tr></table></figure>
+<h3 id="controllers"><a href="#controllers" class="headerlink" title="controllers"></a>controllers</h3><h4 id="index-js"><a href="#index-js" class="headerlink" title="index.js"></a>index.js</h4><p><code>index.js</code> 是 controllers 模块的入口文件，主要功能是动态的加载模块，有关动态加载模块欢迎阅读另一篇由土豪金大佬写的文章。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> c = &#123;&#125;;</div><div class="line">fs.readdirSync(__dirname)</div><div class="line">  .filter(<span class="function"><span class="params">f</span> =&gt;</span> f.match(<span class="regexp">/\.js$/</span>) &amp;&amp; !f.match(<span class="regexp">/^_/</span>) &amp;&amp; f !== <span class="string">'index.js'</span>)</div><div class="line">  .forEach(<span class="function"><span class="params">f</span> =&gt;</span> &#123;</div><div class="line">    c[f.replace(<span class="regexp">/\.js$/</span>, <span class="string">''</span>)] = <span class="built_in">require</span>(<span class="string">'./'</span> + f);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = c;</div></pre></td></tr></table></figure>
+<p>上面这段代码主要的功能是，创建一个对象 c ，并利用 fs 将 controllers 目录下的 js 程序文件都动态地导入进来，然后将导入的程序模块作为一个 c 的实例属性，这样就可以直接用模块名访问了。这段代码真的被惊艳到了，惊叹于 js 的动态性如此灵活。</p>
+<h4 id="test-js"><a href="#test-js" class="headerlink" title="test.js"></a>test.js</h4><p><code>test.js</code> 是 controllers 模块中其中一个测试的模块程序文件，如果 controllers 有多个这样的程序模块文件，入口文件 <code>index.js</code> 种的程序都会将这些程序文件作为不同字模块导入到控制器 c 的实例中。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">exports.hello = <span class="keyword">async</span> <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.send(<span class="string">'hello '</span> + req.protocol);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>上面这段代码，就是利用 Express 的 Response 对象发送 HTTP 响应结果，并输出 “hello” 和 Express 的 Request 对象的网络协议。</p>
+<h3 id="models-模块"><a href="#models-模块" class="headerlink" title="models 模块"></a>models 模块</h3><p>models 模块在上一篇手机中简单介绍了 Sequelize 这个 ORM 框架，本文不过多介绍。models 的主要用途就是将程序数据模型，映射到数据库中的关系数据中。 models 模块的模块导入方法和 controllers 是一样的，这里也不做详细介绍了。</p>
+<h3 id="router"><a href="#router" class="headerlink" title="router"></a>router</h3><p>router 的入口文件 <code>index.js</code> 主要是做路由的绑定，利用三方的路由模块，将用户访问的路由绑定到相应的 controllers 的模块程序调用。<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> Router = <span class="built_in">require</span>(<span class="string">'express-promise-router'</span>);</div><div class="line"></div><div class="line"><span class="keyword">var</span> c = <span class="built_in">require</span>(<span class="string">'../controllers'</span>);</div><div class="line"><span class="keyword">var</span> r = Router();</div><div class="line"></div><div class="line"><span class="comment">/// test</span></div><div class="line">r.get(<span class="string">'/'</span>, c.test.hello);</div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = r;</div></pre></td></tr></table></figure></p>
+<p>这段代码将 <code>/</code> 路由绑定到了 <code>c.test.hello</code> 程序调用上，这样当访问根路由的时候，网页就能显示 “hello” 和 Express 的 Request 对象的网络协议了。<br>以上代码都编写完成后，就可以到程序根目录执行 <code>npm start</code> 查看程序运行效果。</p>
+<h2 id="Architecture"><a href="#Architecture" class="headerlink" title="Architecture"></a>Architecture</h2><p><img src="./images/js_modules_arc.png" alt=""></p>
+<p>在上面的介绍中，我们已经基本学习了 JavaScript Modules 和 Express Middleware，并编写代码实践了 JavaScript 模块化编程。根据本文所提供的代码案例，我们可以得到一个简单的项目架构， <strong>Router 和 Controllers 进行绑定，用户访问路由并调用 Controllers 中相应的模块方法，而在 Controllers 的模块方法中，可以调用 Models 的模块方法，最终由 Models 层对数据库数据进行更新等操作。模块化编程的好处是将路由、控制层和模型层的代码分离，这样使程序架构变得更加清晰。</strong></p>
+<p>在本次分享的《从 include 到 require - 论 node require 设计》文章中，更加详细的比较了 JavaScript ES6 的标准模块导入 <code>import</code>  和 Nodejs 提供的 <code>require</code> 方式的优缺点。在这篇文章中有如下的一些描述：</p>
+<blockquote>
+<p>而 require 则完全是相反的路子，依赖完全是动态加载的。就像是事物的两面，require 解决了静态依赖的痛点，但同时动态化也使得 ruby 的语法提示变得困难。打包器也不得不以来于一个独立的 Gemfile 来描述依赖管理。<br>…<br>但是同样是 require ，Ryan 却从 ruby 里充分的吸取了历史教训：node require 会返回一个变量而不是修改本地名字空间。<br>…<br>另外 node require 还做了一个极具前瞻性的事情，就是把依赖安装到了项目目录。<br>…<br>就像是我上面说的，动态方案的最大缺陷就在于无法被简单的静态分析。当浏览器加载页面如果需要反复的暂停，等待网络请求，的确会极大的影响用户体验。这个从表明上来说貌似是一个非常“合理”的理由。我们暂且认为这个理由是合理的。但 es 标准化委员会在 import 的设计中犯的低级错误简直无法忍受。<br>…<br>如果去掉 webpack 的，让浏览器直接 import，完全就是不切实际的做法。一个网页通常只有上百个图标。但一个 lodash 都有 631 个文件。如果按照 100ms 的延迟、10 个线程并发、启用 tcp fast open、禁用 https，在这么极端的情况下仍然需要 6.4 秒。这仅仅是一个 lodash。未经压缩的 jQuery 有多少文件，未压缩的 d3 有多少文件？一个页面到时候 10 分钟加载够吗？</p>
+</blockquote>
+<p>以上这几段文字，是我摘录的动态导入模块 <code>require</code> 和 ES6 标准制定的 <code>import</code> 模块导入的相关对比描述。从本文之前的介绍中，我们可以了解到 <code>require</code> 可以动态的加载模块，这样对于程序而言就非常灵活，动态性发挥到极致，并不用将模块方法写死到代码中，甚至线上部署的时候可以利用变量来控制模块的加载。而 <code>import</code> 则只能静态导入模块，并且要将全部的程序模块文件一次性导入，这样做会大大浪费网络请求的时间，从而降低用户体验。</p>
+<p>但除此之外，扩展去看，解释型语言和编译型语言相比，性能确实不如编译型语言。比如，我们一个 iOS App 当经过编译打包之后，就可以安装到手机上，当程序加载到内存中后就可以直接运行了。而对于 Web App 我们要先下载 HTML、JavaScript 等相关资源，然后，等 JS 的资源下载完成后浏览器的 JS 引擎才开始进行程序的解释并运行。从这个方面看，客户端开发应该还暂时不会丢饭碗。但如果未来 5G 网络速度又有了更大提升呢？以后网络速度优化更好，说不定真的就不需要 Client 了。</p>
+<h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>本文简单介绍了 JavaScript Modules 和 Express Middleware，并进行了编码时间，对模块编程比较深入的学习。</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li>从 include 到 require - 论 node require 设计 <a href="https://mechanical-consciousness.com/2018/09/23/from-include-to-require-zh.html" target="_blank" rel="external">https://mechanical-consciousness.com/2018/09/23/from-include-to-require-zh.html</a></li>
+<li>Express API <a href="http://expressjs.com/zh-cn/api.html#express" target="_blank" rel="external">http://expressjs.com/zh-cn/api.html#express</a></li>
+<li>Using middleware <a href="http://expressjs.com/en/guide/using-middleware.html" target="_blank" rel="external">http://expressjs.com/en/guide/using-middleware.html</a></li>
+</ul>
+
+    
+  </div>
+  
+  <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+  
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">赞赏</span>
+      <div class="donation-body">
+        <div class="tip text-center">感谢支持～ 😘</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/09/19/2018-09-19 学习手记/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+	<!-- Gitment评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "niyaoyao",//github用户名
+  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
+  oauth: {
+    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
+    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
+  },
+})
+gitment.render('git')
+</script>
+<!-- Gitment代码结束 -->
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+</body>
+</html>

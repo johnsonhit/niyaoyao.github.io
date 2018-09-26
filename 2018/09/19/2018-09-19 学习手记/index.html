@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>2018-09-19 学习手记 | N.Y.</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Audio Unit," />
+  
+
+  <meta name="description" content="因为年初的一场网络暴力，我颓废了很久。微博基本不玩了，社交网络也转成 Twitter 和 Instgram，不再希望结交新的朋友。然而学习上也懈怠了，内心十分懊悔，咸鱼心态淡泊名利也无可厚非，但是无所事事颓废下去就人生就真的太虚无了。所以，从今起开始每天坚持总结下所学所想。当然内容可能都很基础浅显，只为记录自己所做的事，不图多深奥。
+
+从今天开始，我将每天总结当天的学习成果，激励自己每天都要有所进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2018-09-19 学习手记">
+<meta property="og:url" content="http://yoursite.com/2018/09/19/2018-09-19 学习手记/index.html">
+<meta property="og:site_name" content="N.Y.">
+<meta property="og:description" content="因为年初的一场网络暴力，我颓废了很久。微博基本不玩了，社交网络也转成 Twitter 和 Instgram，不再希望结交新的朋友。然而学习上也懈怠了，内心十分懊悔，咸鱼心态淡泊名利也无可厚非，但是无所事事颓废下去就人生就真的太虚无了。所以，从今起开始每天坚持总结下所学所想。当然内容可能都很基础浅显，只为记录自己所做的事，不图多深奥。
+
+从今天开始，我将每天总结当天的学习成果，激励自己每天都要有所进">
+<meta property="og:image" content="https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/Art/audioUnitScopes_2x.png">
+<meta property="og:updated_time" content="2018-09-19T12:28:26.313Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2018-09-19 学习手记">
+<meta name="twitter:description" content="因为年初的一场网络暴力，我颓废了很久。微博基本不玩了，社交网络也转成 Twitter 和 Instgram，不再希望结交新的朋友。然而学习上也懈怠了，内心十分懊悔，咸鱼心态淡泊名利也无可厚非，但是无所事事颓废下去就人生就真的太虚无了。所以，从今起开始每天坚持总结下所学所想。当然内容可能都很基础浅显，只为记录自己所做的事，不图多深奥。
+
+从今天开始，我将每天总结当天的学习成果，激励自己每天都要有所进">
+<meta name="twitter:image" content="https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/Art/audioUnitScopes_2x.png">
+
+  
+
+  
+    <link rel="icon" href="https://niyaoyao.github.io/images/avatar_ny.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?57e94d016e201fba3603a8a2b0263af0";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+<body>
+
+
+  
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><span id="toolbox-mobile" class="toolbox-mobile">导航</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">导航</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Audio-Unit-学习笔记"><span class="toc-text">Audio Unit 学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#封装-Audio-Unit-录音播放器的一般步骤"><span class="toc-text">封装 Audio Unit 录音播放器的一般步骤</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我的玩具划水鸭"><span class="toc-text">我的玩具划水鸭</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#已实现"><span class="toc-text">已实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#已知问题"><span class="toc-text">已知问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#亟待实现"><span class="toc-text">亟待实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#明天的学习计划"><span class="toc-text">明天的学习计划</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#学习目标"><span class="toc-text">学习目标</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-2018-09-19 学习手记" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">2018-09-19 学习手记</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.09.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Niyao</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Audio-and-Video/">Audio and Video</a>
+  </span>
+
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="http://www.niyao.space/2018/09/19/2018-09-19 学习手记/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <font size="2"><em>因为年初的一场网络暴力，我颓废了很久。微博基本不玩了，社交网络也转成 Twitter 和 Instgram，不再希望结交新的朋友。然而学习上也懈怠了，内心十分懊悔，咸鱼心态淡泊名利也无可厚非，但是无所事事颓废下去就人生就真的太虚无了。所以，从今起开始每天坚持总结下所学所想。当然内容可能都很基础浅显，只为记录自己所做的事，不图多深奥。</em></font>
+
+<p>从今天开始，我将每天总结当天的学习成果，激励自己每天都要有所进步。</p>
+<h3 id="Audio-Unit-学习笔记"><a href="#Audio-Unit-学习笔记" class="headerlink" title="Audio Unit 学习笔记"></a>Audio Unit 学习笔记</h3><p>今天再次快速翻阅了《音视频开发进阶指南》，对 Audio Unit 框架大致有了了解，Audio Unit 是 Apple 提供的底层的音频框架。使用 Audio Unit 可以满足音频同时输入输出的的需求，实现耳返的功能。 Audio Unit 可以封装录音机和音频播放器。此外， Audio Unit 可以实现均衡效果器、压缩效果器和混响效果器。这也是音频软件主要的效果器。</p>
+<h4 id="封装-Audio-Unit-录音播放器的一般步骤"><a href="#封装-Audio-Unit-录音播放器的一般步骤" class="headerlink" title="封装 Audio Unit 录音播放器的一般步骤"></a>封装 Audio Unit 录音播放器的一般步骤</h4><ul>
+<li>初始化 AudioSession<br>在 iOS 的音视频开发中，使用 API 都要先调用 [AudioSession sharedInstance] 方法，来获取音频的会话。</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line"><span class="built_in">NSError</span> *error;</div><div class="line"><span class="built_in">AVAudioSession</span> *audioSession = [<span class="built_in">AVAudioSession</span> sharedInstance];</div><div class="line"></div><div class="line">[audioSession setCategory:<span class="built_in">AVAudioSessionCategoryPlayAndRecord</span> error:&amp;error];</div><div class="line">[audioSession setPreferredSampleRate:<span class="number">44100</span> error:&amp;error];</div><div class="line">[audioSession setPreferredInputNumberOfChannels:<span class="number">1</span> error:&amp;error];</div><div class="line">[audioSession setPreferredIOBufferDuration:<span class="number">0.05</span> error:&amp;error];</div></pre></td></tr></table></figure>
+<ul>
+<li>初始化 Audio Unit</li>
+</ul>
+<p>分配缓冲区并创建 Audio Component，<strong>AudioComponentInstanceNew</strong> 创建 Audio Unit 实例</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)initBuffer &#123;</div><div class="line">    <span class="built_in">UInt32</span> flag = <span class="number">0</span>;</div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioUnitProperty_ShouldAllocateBuffer,</div><div class="line">                         kAudioUnitScope_Output,</div><div class="line">                         INPUT_BUS,</div><div class="line">                         &amp;flag,</div><div class="line">                         <span class="keyword">sizeof</span>(flag));</div><div class="line">    </div><div class="line">    buffList = (AudioBufferList*)malloc(<span class="keyword">sizeof</span>(AudioBufferList));</div><div class="line">    buffList-&gt;mNumberBuffers = <span class="number">1</span>;</div><div class="line">    buffList-&gt;mBuffers[<span class="number">0</span>].mNumberChannels = <span class="number">1</span>;</div><div class="line">    buffList-&gt;mBuffers[<span class="number">0</span>].mDataByteSize = <span class="number">2048</span> * <span class="keyword">sizeof</span>(<span class="keyword">short</span>);</div><div class="line">    buffList-&gt;mBuffers[<span class="number">0</span>].mData = (<span class="keyword">short</span> *)malloc(<span class="keyword">sizeof</span>(<span class="keyword">short</span>) * <span class="number">2048</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)initAudioComponent &#123;</div><div class="line">    AudioComponentDescription audioDesc;</div><div class="line">    audioDesc.componentType = kAudioUnitType_Output;</div><div class="line">    audioDesc.componentSubType = kAudioUnitSubType_RemoteIO;</div><div class="line">    audioDesc.componentManufacturer = kAudioUnitManufacturer_Apple;</div><div class="line">    audioDesc.componentFlags = <span class="number">0</span>;</div><div class="line">    audioDesc.componentFlagsMask = <span class="number">0</span>;</div><div class="line">    </div><div class="line">    AudioComponent inputComponent = AudioComponentFindNext(<span class="literal">NULL</span>, &amp;audioDesc);</div><div class="line">    AudioComponentInstanceNew(inputComponent, &amp;audioUnit);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>创建 AudioStreamBasicDescription 并设置给 Audio Unit 实例</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)initFormat &#123;</div><div class="line">    AudioStreamBasicDescription audioFormat;</div><div class="line">    audioFormat.mSampleRate = <span class="number">44100</span>;</div><div class="line">    audioFormat.mFormatID = kAudioFormatLinearPCM;</div><div class="line">    audioFormat.mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagIsPacked;</div><div class="line">    audioFormat.mFramesPerPacket = <span class="number">1</span>;</div><div class="line">    audioFormat.mChannelsPerFrame = <span class="number">1</span>;</div><div class="line">    audioFormat.mBitsPerChannel = <span class="number">16</span>;</div><div class="line">    audioFormat.mBytesPerPacket = <span class="number">2</span>;</div><div class="line">    audioFormat.mBytesPerFrame = <span class="number">2</span>;</div><div class="line">    </div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioUnitProperty_StreamFormat,</div><div class="line">                         kAudioUnitScope_Output,</div><div class="line">                         INPUT_BUS,</div><div class="line">                         &amp;audioFormat,</div><div class="line">                         <span class="keyword">sizeof</span>(audioFormat));</div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioUnitProperty_StreamFormat,</div><div class="line">                         kAudioUnitScope_Input,</div><div class="line">                         OUTPUT_BUS,</div><div class="line">                         &amp;audioFormat,</div><div class="line">                         <span class="keyword">sizeof</span>(audioFormat));</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>Audio Unit 的通用参数设置</li>
+</ul>
+<p><img src="https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitHostingGuide_iOS/Art/audioUnitScopes_2x.png" alt=""><br>如上图所示， RemoteIO Unit 分为 Element0 和 Element1，Element0 控制输出端（Output），Element1 控制输入端（Input）。若想要使用扬声器的声音播放功能必须将 Element0 的 OutputScope 和 Speaker 进行连接。若想使用麦克风的录音功能，必须将 Element1 的 InputScope 和 Microphone 进行连接。</p>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)initAudioProperty &#123;</div><div class="line">    <span class="built_in">UInt32</span> flag = <span class="number">1</span>;</div><div class="line">    </div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioOutputUnitProperty_EnableIO,</div><div class="line">                         kAudioUnitScope_Input,</div><div class="line">                         INPUT_BUS,</div><div class="line">                         &amp;flag,</div><div class="line">                         <span class="keyword">sizeof</span>(flag));</div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioOutputUnitProperty_EnableIO,</div><div class="line">                         kAudioUnitScope_Input,</div><div class="line">                         OUTPUT_BUS,</div><div class="line">                         &amp;flag,</div><div class="line">                         <span class="keyword">sizeof</span>(flag));</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>构造 AUGraph 实现耳返功能</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)initRecordeCallback &#123;</div><div class="line">    AURenderCallbackStruct recordCallback;</div><div class="line">    recordCallback.inputProc = RecordCallback;</div><div class="line">    recordCallback.inputProcRefCon = (__bridge <span class="keyword">void</span> *)<span class="keyword">self</span>;</div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioOutputUnitProperty_SetInputCallback,</div><div class="line">                         kAudioUnitScope_Global,</div><div class="line">                         INPUT_BUS,</div><div class="line">                         &amp;recordCallback,</div><div class="line">                         <span class="keyword">sizeof</span>(recordCallback));</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)initPlayCallback &#123;</div><div class="line">    AURenderCallbackStruct playCallback;</div><div class="line">    playCallback.inputProc = PlayCallback;</div><div class="line">    playCallback.inputProcRefCon = (__bridge <span class="keyword">void</span> *)<span class="keyword">self</span>;</div><div class="line">    AudioUnitSetProperty(audioUnit,</div><div class="line">                         kAudioUnitProperty_SetRenderCallback,</div><div class="line">                         kAudioUnitScope_Global,</div><div class="line">                         OUTPUT_BUS,</div><div class="line">                         &amp;playCallback,</div><div class="line">                         <span class="keyword">sizeof</span>(playCallback));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> OSStatus RecordCallback(<span class="keyword">void</span> *inRefCon,</div><div class="line">                               AudioUnitRenderActionFlags *ioActionFlags,</div><div class="line">                               <span class="keyword">const</span> AudioTimeStamp *inTimeStamp,</div><div class="line">                               <span class="built_in">UInt32</span> inBusNumber,</div><div class="line">                               <span class="built_in">UInt32</span> inNumberFrames,</div><div class="line">                               AudioBufferList *ioData)</div><div class="line">&#123;</div><div class="line">    </div><div class="line">    AudioUnitRender(audioUnit, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, buffList);</div><div class="line">    </div><div class="line">    <span class="keyword">short</span> *data = (<span class="keyword">short</span> *)buffList-&gt;mBuffers[<span class="number">0</span>].mData;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%d"</span>, data[<span class="number">0</span>]);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> noErr;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">static</span> OSStatus PlayCallback(<span class="keyword">void</span> *inRefCon,</div><div class="line">                            AudioUnitRenderActionFlags *ioActionFlags,</div><div class="line">                            <span class="keyword">const</span> AudioTimeStamp *inTimeStamp,</div><div class="line">                            <span class="built_in">UInt32</span> inBusNumber,</div><div class="line">                            <span class="built_in">UInt32</span> inNumberFrames,</div><div class="line">                            AudioBufferList *ioData) &#123;</div><div class="line">    AudioUnitRender(audioUnit, ioActionFlags, inTimeStamp, <span class="number">1</span>, inNumberFrames, ioData);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> noErr;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="我的玩具划水鸭"><a href="#我的玩具划水鸭" class="headerlink" title="我的玩具划水鸭"></a>我的玩具划水鸭</h3><h4 id="已实现"><a href="#已实现" class="headerlink" title="已实现"></a>已实现</h4><p>最近在修改之前即时通讯的 bug，写了个玩具划水鸭。</p>
+<ul>
+<li>Web 技术栈是 Node + Express + React <a href="https://github.com/niyaoyao/nytoy-websocket-server-with-nodejs" target="_blank" rel="external">https://github.com/niyaoyao/nytoy-websocket-server-with-nodejs</a></li>
+<li>iOS 写了个简单的客户端 <a href="https://github.com/niyaoyao/nytoy-websocket-client-ios" target="_blank" rel="external">https://github.com/niyaoyao/nytoy-websocket-client-ios</a></li>
+</ul>
+<h4 id="已知问题"><a href="#已知问题" class="headerlink" title="已知问题"></a>已知问题</h4><p>Web App 访问的地址暂时不放了，主要是 bug 太多，并且还有很多想完善的功能。</p>
+<ul>
+<li>输入栏始终在最底部。</li>
+<li>可以有聊天记录。</li>
+<li>ws重连。</li>
+<li>可以调用图灵 API 这样始终会有人在聊天哈哈哈哈哈哈</li>
+<li>登录登出消息广播。</li>
+<li>表情代码解析。</li>
+<li>昵称校验。</li>
+<li>在线人数统计。</li>
+<li>把我 iPhone 的 APNs token 加上，这样就能及时收到推送消息了。</li>
+<li>收到消息列表滚到最底下。</li>
+<li>翻墙搜索功能：利用海外 VPS 优势。</li>
+<li>iOS client reconnect close 问题。</li>
+<li>iOS client 心跳包。</li>
+</ul>
+<h4 id="亟待实现"><a href="#亟待实现" class="headerlink" title="亟待实现"></a>亟待实现</h4><p>后端需要做一个简单的用户系统，简单的用户注册和登录。</p>
+<h3 id="明天的学习计划"><a href="#明天的学习计划" class="headerlink" title="明天的学习计划"></a>明天的学习计划</h3><p>明天仍以音视频开发学习为主，主要用书《音视频开发进阶指南》《OpenGL ES 应用开发指南 iOS 卷》。主要学习 GLSL、 OpenGL API 使用和视频合成的相关技术。</p>
+<h4 id="学习目标"><a href="#学习目标" class="headerlink" title="学习目标"></a>学习目标</h4><ul>
+<li>争取能画个简单的三角形。</li>
+<li>争取能在 Caputure Session 的 Output Buffer 回调方法中利用 OpenGL API 渲染图片。</li>
+</ul>
+
+    
+  </div>
+  
+  <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+  
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">赞赏</span>
+      <div class="donation-body">
+        <div class="tip text-center">感谢支持～ 😘</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/05/26/openglcode/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/09/25/2018-09-25 学习手记/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+	<!-- Gitment评论插件通用代码 -->
+<div id="git"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  owner: "niyaoyao",//github用户名
+  repo: "niyaoyao.github.io",//用户存储评论的github项目名称
+  oauth: {
+    client_id: "d0f3f608dd2342ad28e1",//注册OAuth Application时生产的ClinetID
+    client_secret:"4aaf54736a3440ca4d3818ef6178ac156e33c8f7",//注册OAuth Application时生成的Client Secret
+  },
+})
+gitment.render('git')
+</script>
+<!-- Gitment代码结束 -->
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</body>
+</html>
